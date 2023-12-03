@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
+	"fmt"
 	"strings"
 )
 
@@ -1027,23 +1027,36 @@ func main() {
 		var digits = []byte{}
 		line := scanner.Text()
 		bline := []byte(line)
-		for _, c := range bline {
-			if c >=48 && c <= 57 {
+		for i, c := range bline {
+			// digit
+			if c >= 48 && c <= 57 {
 				digits = append(digits, c-48)
+				continue
+			}
+			// letter
+			if c >= 97 && c <= 122 {
+				for j, w := range special {
+					l := len(w)
+					if len(bline[i:]) >= l &&
+						string(bline[i:i+l]) == w {
+						digits = append(digits, byte(j+1))
+						continue
+					}
+				}
 			}
 		}
 		switch len(digits) {
 		case 0:
 			res = 0
 		case 1:
-			res = int(digits[0]*11)
+			res = int(digits[0] * 11)
 		default:
 			res = int(digits[0]*10 + digits[len(digits)-1])
 		}
 
 		sum += res
-    	fmt.Printf("line: %s : %v -> %d (%d)\n", line, digits, res, sum)
+		fmt.Printf("line: %s : %v -> %d (%d)\n", line, digits, res, sum)
 	}
 
-    fmt.Println("Answer: ", sum)
+	fmt.Println("Answer: ", sum)
 }

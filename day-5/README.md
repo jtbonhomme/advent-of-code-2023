@@ -51,7 +51,7 @@ humidity-to-location map:
 60 56 37
 56 93 4
 ```
-The almanac starts by listing which seeds need to be planted: seeds 79, 14, 55, and 13.
+The almanac starts by listing which seeds need to be planted: `seeds 79, 14, 55, and 13.`
 
 The rest of the almanac contains a list of maps which describe how to convert numbers from a source category into numbers in a destination category. That is, the section that starts with seed-to-soil map: describes how to convert a seed number (the source) to a soil number (the destination). This lets the gardener and his team know which soil to use with which seeds, which water to use with which fertilizer, and so on.
 
@@ -59,11 +59,14 @@ Rather than list every source number and its corresponding destination number on
 
 Consider again the example seed-to-soil map:
 
+```
 50 98 2
 52 50 48
+```
+
 The first line has a destination range start of 50, a source range start of 98, and a range length of 2. This line means that the source range starts at 98 and contains two values: 98 and 99. The destination range is the same length, but it starts at 50, so its two values are 50 and 51. With this information, you know that seed number 98 corresponds to soil number 50 and that seed number 99 corresponds to soil number 51.
 
-The second line means that the source range starts at 50 and contains 48 values: 50, 51, ..., 96, 97. This corresponds to a destination range starting at 52 and also containing 48 values: 52, 53, ..., 98, 99. So, seed number 53 corresponds to soil number 55.
+The second line means that the source range starts at 50 and contains 48 values: `50, 51, ..., 96, 97`. This corresponds to a destination range starting at 52 and also containing 48 values: `52, 53, ..., 98, 99`. So, seed number 53 corresponds to soil number 55.
 
 Any source numbers that aren't mapped correspond to the same destination number. So, seed number 10 corresponds to soil number 10.
 
@@ -90,6 +93,7 @@ Seed number 79 corresponds to soil number 81.
 Seed number 14 corresponds to soil number 14.
 Seed number 55 corresponds to soil number 57.
 Seed number 13 corresponds to soil number 13.
+
 The gardener and his team want to get started as soon as possible, so they'd like to know the closest location that needs a seed. Using these maps, find the lowest location number that corresponds to any of the initial seeds. To do this, you'll need to convert each seed number through other categories until you can find its corresponding location number. In this example, the corresponding types are:
 
 Seed 79, soil 81, fertilizer 81, water 81, light 74, temperature 78, humidity 78, location 82.
@@ -106,7 +110,8 @@ Everyone will starve if you only plant such a small number of seeds. Re-reading 
 
 The values on the initial seeds: line come in pairs. Within each pair, the first value is the start of the range and the second value is the length of the range. So, in the first line of the example above:
 
-`seeds: 79 14 55 13``
+`seeds: 79 14 55 13`
+
 This line describes two ranges of seed numbers to be planted in the garden. The first range starts with seed number 79 and contains 14 values: 79, 80, ..., 91, 92. The second range starts with seed number 55 and contains 13 values: 55, 56, ..., 66, 67.
 
 Now, rather than considering four seed numbers, you need to consider a total of 27 seed numbers.

@@ -115,12 +115,14 @@ func (a ByHandValue) Less(i, j int) bool {
 func analyseHand(cards []string) int {
 	var hasThreeOfAKind bool
 	var numberOfPairs int
+	copycards := make([]string, len(cards))
+	copy(copycards, cards)
 
-	sort.Sort(ByCard(cards))
-	for i := 0; i < len(cards); i++ {
+	sort.Sort(ByCard(copycards))
+	for i := 0; i < len(copycards); i++ {
 		n := 1
-		for j := i + 1; j < len(cards); j++ {
-			if cards[i] == cards[j] {
+		for j := i + 1; j < len(copycards); j++ {
+			if copycards[i] == copycards[j] {
 				n++
 			}
 		}
@@ -170,8 +172,8 @@ func run(i string) int {
 	sort.Sort(ByHandValue(hands))
 	for i, h := range hands {
 		rank := len(hands) - i
-		fmt.Printf("%d - %v (value %d) - bid = %d\n", rank, h.Cards, h.Value, h.Bid)
 		answer += rank * h.Bid
+		fmt.Printf("rank %d - %v (value %d - bid %d) - cumulated answer %d\n", rank, h.Cards, h.Value, h.Bid, answer)
 	}
 
 	return answer

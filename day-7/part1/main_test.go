@@ -27,7 +27,7 @@ func TestSort(t *testing.T) {
 		"8",
 	}
 
-	sort.Sort(ByHand(cards))
+	sort.Sort(ByCard(cards))
 	if cards[0] != "A" && cards[4] != "2" {
 		t.Errorf("expected cards to be [A K T 8 2] and got %v", cards)
 	}
@@ -40,67 +40,67 @@ type HandTest struct {
 
 func TestAnalyse(t *testing.T) {
 	tests := []HandTest{
-		HandTest{
+		{
 			Cards:         []string{"A", "A", "A", "A", "A"},
 			ExpectedValue: 7,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "A", "A", "A", "Q"},
 			ExpectedValue: 6,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "K", "K", "K", "K"},
 			ExpectedValue: 6,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "A", "A", "K", "K"},
 			ExpectedValue: 5,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "A", "K", "K", "K"},
 			ExpectedValue: 5,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "A", "A", "K", "Q"},
 			ExpectedValue: 4,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "K", "K", "K", "Q"},
 			ExpectedValue: 4,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "K", "Q", "Q", "Q"},
 			ExpectedValue: 4,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "A", "K", "K", "Q"},
 			ExpectedValue: 3,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "A", "K", "Q", "Q"},
 			ExpectedValue: 3,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "K", "K", "Q", "Q"},
 			ExpectedValue: 3,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "A", "K", "Q", "T"},
 			ExpectedValue: 2,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "K", "K", "Q", "T"},
 			ExpectedValue: 2,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "K", "Q", "Q", "T"},
 			ExpectedValue: 2,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "K", "Q", "T", "T"},
 			ExpectedValue: 2,
 		},
-		HandTest{
+		{
 			Cards:         []string{"A", "K", "Q", "T", "9"},
 			ExpectedValue: 1,
 		},
@@ -119,7 +119,7 @@ T55J5 684
 KK677 28
 KTJJT 220
 QQQJA 483`)
-	if a != 0 {
-		t.Errorf("expected 0 and got %d", a)
+	if a != 6440 {
+		t.Errorf("expected 6440 and got %d", a)
 	}
 }

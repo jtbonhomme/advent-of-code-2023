@@ -57,48 +57,52 @@ func cardRank(c string) int {
 	return v
 }
 
-// ByHand implements sort.Interface for []Person based on
-// the Age field.
-type ByHand []string
+// ByCard implements sort.Interface for []string based on
+// the Card facing value.
+type ByCard []string
 
-func (a ByHand) Len() int      { return len(a) }
-func (a ByHand) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
-func (a ByHand) Less(i, j int) bool {
+func (a ByCard) Len() int      { return len(a) }
+func (a ByCard) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+func (a ByCard) Less(i, j int) bool {
 	iValue := cardRank(a[i])
 	jValue := cardRank(a[j])
 	return iValue > jValue
 }
 
-func isFiveOfAKind(hand Hand) bool {
-	return false
+func handScore(cards []string) int {
+	var score int
+
+	for i, c := range cards {
+		v := cardRank(c)
+		score += (len(cards) - i) * (len(cards) - i) * v * v
+	}
+
+	return score
 }
 
-func isFourOfAKind(hand Hand) bool {
-	return false
-}
+// ByHandValue implements sort.Interface for []Hand based on
+// the Value field.
+type ByHandValue []Hand
 
-func isFullHouse(hand Hand) bool {
-	return false
-}
+func (a ByHandValue) Len() int      { return len(a) }
+func (a ByHandValue) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+func (a ByHandValue) Less(i, j int) bool {
+	iValue := a[i].Value
+	jValue := a[j].Value
 
-func isThreeOfAKind(hand Hand) bool {
-	return false
-}
+	if iValue == jValue {
+		for k, _ := range a[i].Cards {
+			iScore := cardRank(a[i].Cards[k])
+			jScore := cardRank(a[j].Cards[k])
+			if iScore == jScore {
+				continue
+			}
+			return iScore > jScore
 
-func isTwoPair(hand Hand) bool {
-	return false
-}
+		}
+	}
 
-func isOnePair(hand Hand) bool {
-	return false
-}
-
-func isHighCard(hand Hand) bool {
-	return false
-}
-
-func value(hand Hand) int {
-	return 0
+	return iValue > jValue
 }
 
 // 7: AAAAA
@@ -108,12 +112,11 @@ func value(hand Hand) int {
 // 3: AAKKQ or AAKQQ or AKKQQ
 // 2: AAKQT or AKKQT or AKQQT or AKQTT
 // 1: AKQT9
-
 func analyseHand(cards []string) int {
 	var hasThreeOfAKind bool
 	var numberOfPairs int
 
-	sort.Sort(ByHand(cards))
+	sort.Sort(ByCard(cards))
 	for i := 0; i < len(cards); i++ {
 		n := 1
 		for j := i + 1; j < len(cards); j++ {
@@ -158,7 +161,17 @@ func run(i string) int {
 
 	scanner := bufio.NewScanner(strings.NewReader(i))
 	for scanner.Scan() {
-		hands = append(hands, parseLine(scanner.Text()))
+		hand := parseLine(scanner.Text())
+		hand.Value = analyseHand(hand.Cards)
+		hands = append(hands, hand)
+	}
+
+	fmt.Println("sorted hands by value: ")
+	sort.Sort(ByHandValue(hands))
+	for i, h := range hands {
+		rank := len(hands) - i
+		fmt.Printf("%d - %v (value %d) - bid = %d\n", rank, h.Cards, h.Value, h.Bid)
+		answer += rank * h.Bid
 	}
 
 	return answer

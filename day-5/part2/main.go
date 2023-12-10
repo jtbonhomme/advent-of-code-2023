@@ -7,6 +7,7 @@ import (
 	"math"
 	"strconv"
 	"strings"
+	"time"
 )
 
 //go:embed input.txt
@@ -153,7 +154,8 @@ func run(i string) int {
 }
 
 func main() {
+	start := time.Now()
 	answer := run(input)
 
-	fmt.Println("Answer: ", answer)
+	fmt.Printf("Answer: %d (in %s)\n", answer, time.Since(start))
 }

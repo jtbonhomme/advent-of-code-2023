@@ -165,7 +165,23 @@ func analyseHand(cards []string) int {
 			return 7 // five of a kind
 		}
 
+		if n == 1 && numberOfJacks == 4 {
+			return 7 // five of a kind
+		}
+
+		if n == 4 && numberOfJacks == 4 {
+			return 7 // five of a kind
+		}
+
 		if n == 4 || (n == 3 && numberOfJacks == 1) {
+			return 6 // four of a kind
+		}
+
+		if n == 1 && numberOfJacks == 3 {
+			return 6 // four of a kind
+		}
+
+		if n == 2 && numberOfJacks == 3 {
 			return 6 // four of a kind
 		}
 
@@ -238,7 +254,7 @@ func run(i string) int {
 	for i, h := range hands {
 		rank := len(hands) - i
 		answer += rank * h.Bid
-		fmt.Printf("rank %d - %s (bid %d) - cumulated answer %d\n", rank, h, h.Bid, answer)
+		//fmt.Printf("rank %d - %s (bid %d) - cumulated answer %d\n", rank, h, h.Bid, answer)
 	}
 
 	return answer

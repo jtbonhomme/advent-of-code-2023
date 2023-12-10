@@ -116,6 +116,18 @@ func TestAnalyseWithoutJacks(t *testing.T) {
 func TestAnalyseWithJacks(t *testing.T) {
 	tests := []HandTest{
 		{
+			Cards:         []string{"1", "2", "3", "3", "J"},
+			ExpectedValue: 4,
+		},
+		{
+			Cards:         []string{"1", "2", "J", "J", "J"},
+			ExpectedValue: 6,
+		},
+		{
+			Cards:         []string{"1", "J", "J", "J", "J"},
+			ExpectedValue: 7,
+		},
+		{
 			Cards:         []string{"T", "3", "T", "3", "J"},
 			ExpectedValue: 5, // full house
 		},
@@ -156,10 +168,6 @@ func TestAnalyseWithJacks(t *testing.T) {
 			ExpectedValue: 4,
 		},
 		{
-			Cards:         []string{"1", "2", "3", "3", "J"},
-			ExpectedValue: 4,
-		},
-		{
 			Cards:         []string{"1", "2", "3", "J", "J"},
 			ExpectedValue: 4,
 		},
@@ -184,10 +192,6 @@ func TestAnalyseWithJacks(t *testing.T) {
 			ExpectedValue: 6,
 		},
 		{
-			Cards:         []string{"1", "2", "J", "J", "J"},
-			ExpectedValue: 6,
-		},
-		{
 			Cards:         []string{"1", "1", "1", "1", "1"},
 			ExpectedValue: 7,
 		},
@@ -201,10 +205,6 @@ func TestAnalyseWithJacks(t *testing.T) {
 		},
 		{
 			Cards:         []string{"1", "1", "J", "J", "J"},
-			ExpectedValue: 7,
-		},
-		{
-			Cards:         []string{"1", "J", "J", "J", "J"},
 			ExpectedValue: 7,
 		},
 		{

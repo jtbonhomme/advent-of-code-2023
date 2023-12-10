@@ -4,6 +4,7 @@ import (
 	"bufio"
 	_ "embed"
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -52,7 +53,7 @@ func parseLine(line string) Hand {
 }
 
 func cardRank(c string) int {
-	v, _ := cardsRank[c]
+	v := cardsRank[c]
 	return v
 }
 
@@ -98,6 +99,57 @@ func isHighCard(hand Hand) bool {
 
 func value(hand Hand) int {
 	return 0
+}
+
+// 7: AAAAA
+// 6: AAAAQ or AKKKK
+// 5: AAAKK or AAKKK
+// 4: AAAKQ or AKKKQ or AKQQQ
+// 3: AAKKQ or AAKQQ or AKKQQ
+// 2: AAKQT or AKKQT or AKQQT or AKQTT
+// 1: AKQT9
+
+func analyseHand(cards []string) int {
+	var hasThreeOfAKind bool
+	var numberOfPairs int
+
+	sort.Sort(ByHand(cards))
+	for i := 0; i < len(cards); i++ {
+		n := 1
+		for j := i + 1; j < len(cards); j++ {
+			if cards[i] == cards[j] {
+				n++
+			}
+		}
+		if n == 5 {
+			return 7
+		}
+		if n == 4 {
+			return 6
+		}
+		if n == 3 {
+			hasThreeOfAKind = true
+		}
+		// warning, three of a kind also counts as a pair
+		if n == 2 {
+			numberOfPairs++
+		}
+	}
+
+	if hasThreeOfAKind && numberOfPairs == 2 {
+		return 5
+	}
+	if hasThreeOfAKind && numberOfPairs == 1 {
+		return 4
+	}
+	if !hasThreeOfAKind && numberOfPairs == 2 {
+		return 3
+	}
+	if !hasThreeOfAKind && numberOfPairs == 1 {
+		return 2
+	}
+
+	return 1
 }
 
 func run(i string) int {

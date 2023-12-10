@@ -33,6 +33,86 @@ func TestSort(t *testing.T) {
 	}
 }
 
+type HandTest struct {
+	Cards         []string
+	ExpectedValue int
+}
+
+func TestAnalyse(t *testing.T) {
+	tests := []HandTest{
+		HandTest{
+			Cards:         []string{"A", "A", "A", "A", "A"},
+			ExpectedValue: 7,
+		},
+		HandTest{
+			Cards:         []string{"A", "A", "A", "A", "Q"},
+			ExpectedValue: 6,
+		},
+		HandTest{
+			Cards:         []string{"A", "K", "K", "K", "K"},
+			ExpectedValue: 6,
+		},
+		HandTest{
+			Cards:         []string{"A", "A", "A", "K", "K"},
+			ExpectedValue: 5,
+		},
+		HandTest{
+			Cards:         []string{"A", "A", "K", "K", "K"},
+			ExpectedValue: 5,
+		},
+		HandTest{
+			Cards:         []string{"A", "A", "A", "K", "Q"},
+			ExpectedValue: 4,
+		},
+		HandTest{
+			Cards:         []string{"A", "K", "K", "K", "Q"},
+			ExpectedValue: 4,
+		},
+		HandTest{
+			Cards:         []string{"A", "K", "Q", "Q", "Q"},
+			ExpectedValue: 4,
+		},
+		HandTest{
+			Cards:         []string{"A", "A", "K", "K", "Q"},
+			ExpectedValue: 3,
+		},
+		HandTest{
+			Cards:         []string{"A", "A", "K", "Q", "Q"},
+			ExpectedValue: 3,
+		},
+		HandTest{
+			Cards:         []string{"A", "K", "K", "Q", "Q"},
+			ExpectedValue: 3,
+		},
+		HandTest{
+			Cards:         []string{"A", "A", "K", "Q", "T"},
+			ExpectedValue: 2,
+		},
+		HandTest{
+			Cards:         []string{"A", "K", "K", "Q", "T"},
+			ExpectedValue: 2,
+		},
+		HandTest{
+			Cards:         []string{"A", "K", "Q", "Q", "T"},
+			ExpectedValue: 2,
+		},
+		HandTest{
+			Cards:         []string{"A", "K", "Q", "T", "T"},
+			ExpectedValue: 2,
+		},
+		HandTest{
+			Cards:         []string{"A", "K", "Q", "T", "9"},
+			ExpectedValue: 1,
+		},
+	}
+	for i := 0; i < len(tests); i++ {
+		v := analyseHand(tests[i].Cards)
+		if v != tests[i].ExpectedValue {
+			t.Errorf("expected value %d for hands %v but got value %d\n", tests[i].ExpectedValue, tests[i].Cards, v)
+		}
+	}
+}
+
 func TestRun(t *testing.T) {
 	a := run(`32T3K 765
 T55J5 684

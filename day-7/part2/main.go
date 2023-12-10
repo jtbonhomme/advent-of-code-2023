@@ -195,6 +195,10 @@ func analyseHand(cards []string) int {
 		}
 	}
 
+	if !hasThreeOfAKind && numberOfPairs == 1 && numberOfJacks == 1 {
+		return 4 // three of a kind
+	}
+
 	if !hasThreeOfAKind && numberOfPairs == 2 && numberOfJacks == 2 {
 		return 6 // four of a kind
 	}

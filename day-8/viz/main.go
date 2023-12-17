@@ -4,9 +4,9 @@ import (
 	"bufio"
 	_ "embed"
 	"fmt"
+	"os"
 	"regexp"
 	"strings"
-	"time"
 )
 
 //go:embed input.txt
@@ -58,57 +58,26 @@ func isEndingNode(n string) bool {
 	return string(b[2]) == "Z"
 }
 
-func navigate(directionMap map[string]Node, node string, directions []string) int {
-	var step int
-
-	for !isEndingNode(node) {
-		for _, d := range directions {
-			n := directionMap[node]
-			node = n.Go(d)
-			step++
-		}
-	}
-
-	return step
-}
-
 func isStartingNode(n string) bool {
 	b := []byte(n)
 
 	return string(b[2]) == "A"
 }
 
-// greatest common divisor (GCD) via Euclidean algorithm
-func GCD(a, b int) int {
-	for b != 0 {
-		t := b
-		b = a % b
-		a = t
-	}
-	return a
-}
-
-// find Least Common Multiple (LCM) via GCD
-func LCM(integers ...int) int {
-	if len(integers) < 2 {
-		return 0
-	}
-	a := integers[0]
-	b := integers[1]
-	result := a * b / GCD(a, b)
-	integers = integers[2:]
-
-	for i := 0; i < len(integers); i++ {
-		result = LCM(result, integers[i])
-	}
-
-	return result
-}
-
 func run(i string) int {
-	var answers []int
 	var directionMap = make(map[string]Node)
 	var startingNodes = []string{}
+
+	f, err := os.Create("day-8/input.dot")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	_, err = f.WriteString("digraph G {\n")
+	if err != nil {
+		panic(err)
+	}
 
 	scanner := bufio.NewScanner(strings.NewReader(i))
 
@@ -129,16 +98,48 @@ func run(i string) int {
 	}
 
 	for _, startingNode := range startingNodes {
-		steps := navigate(directionMap, startingNode, directions)
-		answers = append(answers, steps)
+		var steps int
+		node := startingNode
+		for !isEndingNode(node) {
+			for _, d := range directions {
+				n := directionMap[node]
+				steps++
+
+				_, err = fmt.Fprintf(f, "  %s -> %s;\n", n.Root, n.Left)
+				if err != nil {
+					panic(err)
+				}
+
+				_, err = fmt.Fprintf(f, "  %s -> %s;\n", n.Root, n.Right)
+				if err != nil {
+					panic(err)
+				}
+
+				node = n.Go(d)
+			}
+		}
+
+		_, err = fmt.Fprintf(f, "  %s [shape=Mdiamond];\n", startingNode)
+		if err != nil {
+			panic(err)
+		}
+
+		_, err = fmt.Fprintf(f, "  %s [shape=Msquare];\n", node)
+		if err != nil {
+			panic(err)
+		}
+
 		fmt.Printf("starting node %s resolves in %d steps\n", startingNode, steps)
 	}
 
-	return LCM(answers...)
+	_, err = f.WriteString("}\n")
+	if err != nil {
+		panic(err)
+	}
+
+	return 0
 }
 
 func main() {
-	start := time.Now()
-	answer := run(input)
-	fmt.Printf("Answer: %d (in %v)\n", answer, time.Since(start))
+	run(input)
 }

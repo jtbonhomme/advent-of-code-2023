@@ -8,8 +8,8 @@ These are my [Advent Of Code 2023](https://adventofcode.com/2023) solutions, wri
 * [Day 4](day-4/README.md)   ✅
 * [Day 5](day-5/README.md)   ✅
 * [Day 6](day-6/README.md)   ✅
-* [Day 7](day-7/README.md)   ❌
-* [Day 8](day-8/README.md)   ❌
+* [Day 7](day-7/README.md)   ✅
+* [Day 8](day-8/README.md)   ✅
 * [Day 9](day-9/README.md)   ❌
 * [Day 10](day-10/README.md) ❌
 * [Day 11](day-11/README.md) ❌

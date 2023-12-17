@@ -14,7 +14,7 @@ Solutions are computed using standard packages only, and do not require any depe
 * [Day 6](day-6/README.md)   ✅
 * [Day 7](day-7/README.md)   ✅
 * [Day 8](day-8/README.md)   ✅
-* [Day 9](day-9/README.md)   ❌
+* [Day 9](day-9/README.md)   ✅
 * [Day 10](day-10/README.md) ❌
 * [Day 11](day-11/README.md) ❌
 * [Day 12](day-12/README.md) ❌
